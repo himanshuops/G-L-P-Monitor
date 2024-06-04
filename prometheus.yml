@@ -1,12 +1,13 @@
+# my global config
 global:
-  scrape_interval: 10s          # Scrapes targets every 10 seconds.
-  evaluation_interval: 10s      # Evaluates rules every 10 seconds.
+  scrape_interval:     10s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 10s # By default, scrape targets every 15 seconds.
   # scrape_timeout is set to the global default (10s).
 
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
-    monitor: 'my-project'
+      monitor: 'my-project'
 
 # Load and evaluate rules in this file every 'evaluation_interval' seconds.
 rule_files:
@@ -15,18 +16,17 @@ rule_files:
   # - "second.rules"
 
 # A scrape configuration containing exactly one endpoint to scrape:
-# Here it's the Node Exporter.
+# Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: 'node_exporter'
+  - job_name: 'prometheus'
 
-    # Override the global default and scrape targets from this job every 10 seconds.
+    # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 10s
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: 
-        # Node Exporter endpoint
-        - '64.120.89.44:9100'
+         - targets: ['64.120.89.44:9090','64.120.89.44:8080','64.120.89.44:9100', '64.120.89.44:9113']
+
