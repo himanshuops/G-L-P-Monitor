@@ -5,7 +5,7 @@ server:
   grpc_listen_port: 9096
 
 common:
-  instance_addr: 127.0.0.1
+  instance_addr: 64.120.89.44
   path_prefix: /tmp/loki
   storage:
     filesystem:
@@ -21,7 +21,14 @@ query_range:
     cache:
       embedded_cache:
         enabled: true
-        max_size_mb: 100
+        max_size_mb: 10000  # Adjusted cache size to 500 MB
+      memcache:
+        enabled: false
+        config:
+          server: localhost:11211
+          max_idle_conns: 16
+          pool_size: 64
+          pool_timeout: 1s
 
 schema_config:
   configs:
@@ -31,7 +38,7 @@ schema_config:
       schema: v11
       index:
         prefix: index_
-        period: 24h  # Rotate indexes every 24 hours (daily)
+        period: 24h
 
 ruler:
   alertmanager_url: http://localhost:9093
@@ -41,17 +48,17 @@ compactor:
   shared_store: filesystem
   compaction_window: 1h
   retention_deletes_enabled: true
-  retention_period: 7d  # Keep data for 7 days
+  retention_period: 20d
 
 limits_config:
   enforce_metric_name_uniqueness: false
   reject_old_samples: true
-  reject_old_samples_max_age: 168h  # 7 days
+  reject_old_samples_max_age: 168h
 
 chunk_store_config:
   max_look_back_period: 0s
 
 table_manager:
   retention_deletes_enabled: true
-  retention_period: 7d
-  compacted_index_limit: 1073741824  # 1 GB
+  retention_period: 20d
+  compacted_index_limit: 1073741824

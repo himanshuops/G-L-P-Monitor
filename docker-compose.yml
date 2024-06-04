@@ -9,21 +9,82 @@ services:
     ports:
       - "3100:3100"
     restart: unless-stopped
+    networks:
+      - monitoring
 
   promtail:
     image: grafana/promtail:latest
     container_name: promtail
     volumes:
-      - ./promtail-config.yml:/mnt/config/promtail-config.yml
       - /var/log:/var/log
+      - ./promtail-config.yml:/mnt/config/promtail-config.yml:ro
+      - api_admin-api_storage:/mnt/logs/admin-api-dev:ro
+      - api_cronjob-api_storage:/mnt/logs/cronjob-api-dev:ro
+      - api_dpwd-api_storage:/mnt/logs/dpwd-api-dev:ro
+      - api_gp-api_storage:/mnt/logs/gp-api-dev:ro
+      - api_log-api_storage:/mnt/logs/log-api-dev:ro
+      - api_master-api_storage:/mnt/logs/master-api-dev:ro
+      - api_memo-api_storage:/mnt/logs/memo-api-dev:ro
+      - api_report-api_storage:/mnt/logs/report-api-dev:ro
+      - api_user-api_storage:/mnt/logs/user-api-dev:ro
     depends_on:
       - loki
     command: "--config.file=/mnt/config/promtail-config.yml"
     restart: unless-stopped
+    networks:
+      - monitoring
 
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
       - "3000:3000"
+    env_file:
+      - ./.env
     restart: unless-stopped
+    networks:
+      - monitoring
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  api_admin-api_storage:
+    external: true
+  api_cronjob-api_storage:
+    external: true
+  api_dpwd-api_storage:
+    external: true
+  api_gp-api_storage:
+    external: true
+  api_log-api_storage:
+    external: true
+  api_master-api_storage:
+    external: true
+  api_memo-api_storage:
+    external: true
+  api_report-api_storage:
+    external: true
+  api_user-api_storage:
+    external: true

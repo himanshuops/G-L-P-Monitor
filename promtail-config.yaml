@@ -6,49 +6,77 @@ positions:
   filename: /tmp/positions.yaml
 
 clients:
-  - url: http://103.161.224.174:3100/loki/api/v1/push
+  - url: http://64.120.89.44:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: system
+  - job_name: admi-api-dev
     static_configs:
       - targets:
           - localhost
         labels:
-          job: varlogs
-          __path__: /var/log/*log
-      # - targets:
-      #     - 103.161.224.174
-      #   labels:
-      #     job: AJ-USER
-      #     __path__: /var/log/jutajackpot.com/*log
-      # - targets:
-      #     - 103.161.224.174
-      #   labels:
-      #     job: AJ-USER-WAP
-      #     __path__: /var/log/wap.jutajackpot.com/*log
-      # - targets:
-      #     - 103.161.224.174
-      #   labels:
-      #     job: AJ-USER-MOB
-      #     __path__: /var/log/m.jutajackpot.com/*log
-      # - targets:
-      #     - 103.161.224.174
-      #   labels:
-      #     job: AJ-ADMIN
-      #     __path__: /var/log/admin.jutajackpot.com/*log
-      # - targets:
-      #     - 103.161.224.174
-      #   labels:
-      #     job: AJ-API
-      #     __path__: /var/log/api-
-      #     jutajackpot.com/*log
-      # - targets:
-      #     - 103.161.224.174
-      #   labels:
-      #     job: DEV_AJ-API
-      #     __path__: /var/log/newaj.api-hkbgaming88.com/*log
+          job: admi-api-dev
+          __path__: /mnt/logs/admi-api-dev/*.log
+
+  - job_name: dpwd-api-dev
+    static_configs:
       - targets:
           - localhost
         labels:
-          job: grafanalogs
-          __path__: /var/log/grafana/*log
+          job: dpwd-api-dev
+          __path__: /mnt/logs/dpwd-api-dev/*.log
+
+  - job_name: gp-api-dev
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: gp-api-dev
+          __path__: /mnt/logs/gp-api-dev/*.log
+
+  - job_name: log-api-dev
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: log-api-dev
+          __path__: /mnt/logs/log-api-dev/*.log
+
+  - job_name: master-api-dev
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: master-api-dev
+          __path__: /mnt/logs/master-api-dev/*.log
+
+  - job_name: memo-api-dev
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: memo-api-dev
+          __path__: /mnt/logs/memo-api-dev/*.log
+    
+  - job_name: report-api-dev
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: report-api-dev
+          __path__: /mnt/logs/report-api-dev/*.log
+
+  - job_name: cronjob-api-dev
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: cronjob-api-dev
+          __path__: /mnt/logs/cronjob-api-dev/*.log
+      
+  - job_name: user-api-dev
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: user-api-dev
+          __path__: /mnt/logs/user-api-dev/*.log
